@@ -6,3 +6,4 @@ console.log(teacher.name);
 console.log(teacher.degree);
 teacher.walk();
 teacher.teach();
+ 
