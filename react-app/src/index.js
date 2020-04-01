@@ -7,5 +7,5 @@ const person = {
 
 person.walk(); // person
 
-const walk = person.walk;
-walk(); // Window
+const walk = person.walk.bind(person);
+walk(); // person
