@@ -2,15 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 
-import App from "./App";
-import Counter from "./components/counter";
+import Counters from "./components/counters";
 
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Counter />
+    <Counters />
   </React.StrictMode>,
   document.getElementById("root")
 );
