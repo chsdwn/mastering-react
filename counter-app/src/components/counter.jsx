@@ -16,9 +16,9 @@ class Counter extends Component {
     return classes;
   }
 
-  handleIncrement() {
-    console.log("Increment clicked");
-  }
+  handleIncrement = () => {
+    console.log("Increment clicked", this);
+  };
 
   render() {
     return (
