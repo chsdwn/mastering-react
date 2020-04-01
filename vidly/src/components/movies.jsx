@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getMovies, deleteMovie } from "../services/fakeMovieService";
+import { getMovies } from "../services/fakeMovieService";
 
 class Movies extends Component {
   state = {
@@ -41,7 +41,7 @@ class Movies extends Component {
                   <td>{movie.dailyRentalRate}</td>
                   <td>
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger btn-sm"
                       onClick={() => this.onMovieDeleteHandler(movie._id)}
                     >
                       Delete
