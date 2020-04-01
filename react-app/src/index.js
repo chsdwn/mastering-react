@@ -1,4 +1,5 @@
-import Teacher from "./teacher";
+import React, { Component } from "react";
+import Teacher, { promote } from "./teacher";
 
 const teacher = new Teacher("Ali", "PhD");
 console.log(teacher.name);
