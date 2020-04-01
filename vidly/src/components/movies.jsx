@@ -14,44 +14,45 @@ class Movies extends Component {
   };
 
   render() {
+    const { movies } = this.state;
+    const length = movies.length;
+
+    if (length === 0) {
+      return <h5>There are no movies in database</h5>;
+    }
+
     return (
       <React.Fragment>
-        {this.state.movies.length > 0 ? (
-          <h5>Showing {this.state.movies.length} movies in the database</h5>
-        ) : (
-          <h5>There are no movies in database</h5>
-        )}
-        {this.state.movies.length > 0 && (
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Genre</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Rate</th>
-                <th scope="col">&nbsp;</th>
+        <h5>Showing {length} movies in the database</h5>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Genre</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Rate</th>
+              <th scope="col">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            {movies.map(movie => (
+              <tr key={movie._id}>
+                <td>{movie.title}</td>
+                <td>{movie.genre.name}</td>
+                <td>{movie.numberInStock}</td>
+                <td>{movie.dailyRentalRate}</td>
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => this.onMovieDeleteHandler(movie._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {this.state.movies.map(movie => (
-                <tr key={movie._id}>
-                  <td>{movie.title}</td>
-                  <td>{movie.genre.name}</td>
-                  <td>{movie.numberInStock}</td>
-                  <td>{movie.dailyRentalRate}</td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => this.onMovieDeleteHandler(movie._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+            ))}
+          </tbody>
+        </table>
       </React.Fragment>
     );
   }
