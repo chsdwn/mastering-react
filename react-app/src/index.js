@@ -8,6 +8,19 @@ class Person {
   }
 }
 
-const person = new Person("Ali");
-console.log(person.name);
-person.walk();
+class Teacher extends Person {
+  constructor(name, degree) {
+    super(name);
+    this.degree = degree;
+  }
+
+  teach() {
+    console.log("teach");
+  }
+}
+
+const teacher = new Teacher("Ali", "PhD");
+console.log(teacher.name);
+console.log(teacher.degree);
+teacher.walk();
+teacher.teach();
