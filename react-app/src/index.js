@@ -1,9 +1,11 @@
-const colors = ["red", "green", "blue"];
+const address = {
+  street: "",
+  city: "",
+  country: ""
+};
 
-const items = colors.map(function(color) {
-  return "<li>" + color + "</li>";
-});
+const street = address.street;
+const city = address.city;
+const country = address.country;
 
-const itemsAF = colors.map(color => `<li>${color}</li>`);
-console.log(items);
-console.log(itemsAF);
+const { street: st, city: ct, country: ctr } = address;
