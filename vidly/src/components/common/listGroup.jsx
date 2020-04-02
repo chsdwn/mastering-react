@@ -1,7 +1,13 @@
 import React from "react";
 
 const ListGroup = props => {
-  const { items, currentItemId, onItemSelect } = props;
+  const {
+    items,
+    textProperty,
+    valueProperty,
+    currentItemId,
+    onItemSelect
+  } = props;
 
   return (
     <ul className="list-group">
@@ -15,15 +21,15 @@ const ListGroup = props => {
       </li>
       {items.map(item => (
         <li
-          key={item._id}
+          key={item[valueProperty]}
           className={
-            currentItemId === item._id
+            currentItemId === item[valueProperty]
               ? "list-group-item active"
               : "list-group-item"
           }
-          onClick={() => onItemSelect(item._id)}
+          onClick={() => onItemSelect(item[valueProperty])}
         >
-          {item.name}
+          {item[textProperty]}
         </li>
       ))}
     </ul>
