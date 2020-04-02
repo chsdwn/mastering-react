@@ -1,14 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 
 const NavBar = ({ totalCounters }) => {
+  console.log("NavBar rendered");
+
   return (
-    <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="#">
+    <nav className="navbar navbar-light bg-light">
+      <p className="navbar-brand">
         Navbar{" "}
         <span className="badge badge-pill badge-secondary">
           {totalCounters}
         </span>
-      </a>
+      </p>
     </nav>
   );
 };

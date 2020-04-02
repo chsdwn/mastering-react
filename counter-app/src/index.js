@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 
 import App from "./App";
-import Counters from "./components/counters";
 
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";

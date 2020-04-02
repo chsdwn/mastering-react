@@ -15,6 +15,17 @@ class App extends Component {
     ]
   };
 
+  constructor() {
+    super();
+    console.log("App ctor");
+    // this.state = "No need to run setState() in constructor";
+  }
+
+  componentDidMount() {
+    // Ajax call
+    console.log("App mounted");
+  }
+
   handleReset = () => {
     const counters = this.state.counters.map(c => {
       c.value = 0;
@@ -46,6 +57,8 @@ class App extends Component {
   };
 
   render() {
+    console.log("App render");
+
     return (
       <React.Fragment>
         <NavBar
