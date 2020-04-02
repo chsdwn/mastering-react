@@ -12,8 +12,7 @@ class Movies extends Component {
     movies: [],
     genres: [],
     pageSize: 4,
-    currentPage: 1,
-    currentGenreId: -1
+    currentPage: 1
   };
 
   componentDidMount() {
@@ -43,20 +42,9 @@ class Movies extends Component {
     this.setState({ currentPage: page });
   };
 
-  handleGenreSelect = genreId => {
-    if (genreId === -1) {
-      this.setState({
-        movies: getMovies(),
-        currentGenreId: -1
-      });
-      return;
-    }
-
-    const movies = getMovies();
-    const filteredMovies = movies.filter(m => m.genre._id === genreId);
+  handleGenreSelect = genre => {
     this.setState({
-      movies: filteredMovies,
-      currentGenreId: genreId
+      selectedGenre: genre
     });
   };
 
@@ -66,7 +54,7 @@ class Movies extends Component {
       genres,
       pageSize,
       currentPage,
-      currentGenreId
+      selectedGenre
     } = this.state;
     const length = allMovies.length;
 
@@ -81,7 +69,7 @@ class Movies extends Component {
         <div className="col-2">
           <ListGroup
             items={genres}
-            currentItemId={currentGenreId}
+            selectedItem={selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
         </div>

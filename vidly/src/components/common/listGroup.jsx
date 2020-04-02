@@ -5,16 +5,14 @@ const ListGroup = props => {
     items,
     textProperty,
     valueProperty,
-    currentItemId,
+    selectedItem,
     onItemSelect
   } = props;
 
   return (
     <ul className="list-group">
       <li
-        className={
-          currentItemId === -1 ? "list-group-item active" : "list-group-item"
-        }
+        className={selectedItem ? "list-group-item active" : "list-group-item"}
         onClick={() => onItemSelect(-1)}
       >
         All Genres
@@ -23,11 +21,9 @@ const ListGroup = props => {
         <li
           key={item[valueProperty]}
           className={
-            currentItemId === item[valueProperty]
-              ? "list-group-item active"
-              : "list-group-item"
+            selectedItem === item ? "list-group-item active" : "list-group-item"
           }
-          onClick={() => onItemSelect(item[valueProperty])}
+          onClick={() => onItemSelect(item)}
         >
           {item[textProperty]}
         </li>
