@@ -9,12 +9,19 @@ import Pagination from "./common/pagination";
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
-    genres: getGenres(),
+    movies: [],
+    genres: [],
     pageSize: 4,
     currentPage: 1,
     currentGenreId: -1
   };
+
+  componentDidMount() {
+    this.setState({
+      movies: getMovies(),
+      genres: getGenres()
+    });
+  }
 
   onMovieDeleteHandler = id => {
     const movies = this.state.movies.filter(movie => movie._id !== id);
@@ -36,7 +43,7 @@ class Movies extends Component {
     this.setState({ currentPage: page });
   };
 
-  handleGenreChange = genreId => {
+  handleGenreSelect = genreId => {
     if (genreId === -1) {
       this.setState({
         movies: getMovies(),
@@ -75,7 +82,7 @@ class Movies extends Component {
           <ListGroup
             items={genres}
             currentItemId={currentGenreId}
-            onItemChange={this.handleGenreChange}
+            onItemSelect={this.handleGenreSelect}
           />
         </div>
         <div className="col">

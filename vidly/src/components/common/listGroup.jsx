@@ -1,7 +1,7 @@
 import React from "react";
 
 const ListGroup = props => {
-  const { items, currentItemId, onItemChange } = props;
+  const { items, currentItemId, onItemSelect } = props;
 
   return (
     <ul className="list-group">
@@ -9,7 +9,7 @@ const ListGroup = props => {
         className={
           currentItemId === -1 ? "list-group-item active" : "list-group-item"
         }
-        onClick={() => onItemChange(-1)}
+        onClick={() => onItemSelect(-1)}
       >
         All Genres
       </li>
@@ -21,7 +21,7 @@ const ListGroup = props => {
               ? "list-group-item active"
               : "list-group-item"
           }
-          onClick={() => onItemChange(item._id)}
+          onClick={() => onItemSelect(item._id)}
         >
           {item.name}
         </li>
