@@ -9,6 +9,10 @@ class Counter extends Component {
     }
   }
 
+  componentWillUnmount() {
+    console.log("Counter unmount");
+  }
+
   formatCount() {
     const { value } = this.props.counter;
     return value === 0 ? "Zero" : value;
