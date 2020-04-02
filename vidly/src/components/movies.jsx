@@ -73,8 +73,6 @@ class Movies extends Component {
 
     const movies = paginate(sorted, currentPage, pageSize);
 
-    console.log();
-
     return {
       totalCount: allMovies.length,
       data: movies
