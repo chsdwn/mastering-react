@@ -3,6 +3,8 @@ import React, { Component } from "react";
 class ProductDetails extends Component {
   handleSave = () => {
     // Navigate to /products
+    // this.props.history.push("/products"); can be go back
+    this.props.history.replace("/products");
   };
 
   render() {
