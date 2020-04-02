@@ -12,8 +12,8 @@ const ListGroup = props => {
   return (
     <ul className="list-group">
       <li
-        className={selectedItem ? "list-group-item active" : "list-group-item"}
-        onClick={() => onItemSelect(-1)}
+        className={!selectedItem ? "list-group-item active" : "list-group-item"}
+        onClick={() => onItemSelect(null)}
       >
         All Genres
       </li>
