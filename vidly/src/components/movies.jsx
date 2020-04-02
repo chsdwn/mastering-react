@@ -3,8 +3,8 @@ import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "../utils/paginate";
 
-import Like from "./common/like";
 import ListGroup from "./common/listGroup";
+import MoviesTable from "./moviesTable";
 import Pagination from "./common/pagination";
 
 class Movies extends Component {
@@ -83,43 +83,11 @@ class Movies extends Component {
         </div>
         <div className="col">
           <h5>Showing {filtered.length} movies in the database</h5>
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Genre</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Rate</th>
-                <th scope="col">&nbsp;</th>
-                <th scope="col">&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              {movies.map(movie => (
-                <tr key={movie._id}>
-                  <td>{movie.title}</td>
-                  <td>{movie.genre.name}</td>
-                  <td>{movie.numberInStock}</td>
-                  <td>{movie.dailyRentalRate}</td>
-                  <td>
-                    <Like
-                      key={movie._id}
-                      liked={movie.liked}
-                      onClick={() => this.handleLike(movie._id)}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => this.onMovieDeleteHandler(movie._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <MoviesTable
+            movies={movies}
+            onDelete={this.onMovieDeleteHandler}
+            onLike={this.handleLike}
+          />
           <Pagination
             itemsCount={filtered.length}
             pageSize={pageSize}
