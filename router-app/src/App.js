@@ -16,7 +16,6 @@ function App() {
           <Route path="/products" component={Products} />
           <Route path="/posts" component={Posts} />
           <Route path="/admin" component={Dashboard} />
-          {/* inside Switch no need to use exact*/}
           <Route path="/" component={Home} />
         </Switch>
       </div>
