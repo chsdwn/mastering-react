@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import Dashboard from "./components/admin/dashboard";
 import Home from "./components/home";
@@ -7,17 +7,18 @@ import NavBar from "./components/navbar";
 import Posts from "./components/posts";
 import Products from "./components/products";
 
-import "./App.css";
-
 function App() {
   return (
-    <div className="App">
+    <div>
       <NavBar />
       <div className="content">
-        <Route path="/products" component={Products} />
-        <Route path="/posts" component={Posts} />
-        <Route path="/admin" component={Dashboard} />
-        <Route path="/" component={Home} />
+        <Switch>
+          <Route path="/products" component={Products} />
+          <Route path="/posts" component={Posts} />
+          <Route path="/admin" component={Dashboard} />
+          {/* inside Switch no need to use exact*/}
+          <Route path="/" component={Home} />
+        </Switch>
       </div>
     </div>
   );
