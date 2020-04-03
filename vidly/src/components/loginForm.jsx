@@ -23,7 +23,7 @@ class LoginForm extends Component {
     }
 
     if (account.password.trim() === "") {
-      errors.password = "Password if required";
+      errors.password = "Password is required";
     }
 
     return Object.keys(errors).length === 0 ? null : errors;
@@ -33,16 +33,13 @@ class LoginForm extends Component {
     e.preventDefault();
 
     const errors = this.validate();
-    console.log(errors);
+    this.setState({ errors: errors || {} });
 
-    this.setState({ errors });
     if (errors) return;
-
-    console.log("submitted");
   };
 
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
 
     return (
       <div>
@@ -52,6 +49,7 @@ class LoginForm extends Component {
             label="Username"
             value={account.username}
             onChange={this.handleChange}
+            error={errors.username}
             autoFocus
           />
           <Input
@@ -59,6 +57,7 @@ class LoginForm extends Component {
             label="Password"
             value={account.password}
             onChange={this.handleChange}
+            error={errors.password}
           />
           <button className="btn btn-primary" type="submit">
             Login
