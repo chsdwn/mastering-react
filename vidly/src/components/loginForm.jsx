@@ -1,19 +1,21 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 
 class LoginForm extends Component {
-  username = React.createRef();
+  state = {
+    account: {
+      username: "",
+      password: ""
+    }
+  };
 
-  // componentDidMount() {
-  //   this.username.current.focus();
-  // }
+  handleChange = e => {
+    const account = { ...this.state.account };
+    account.username = e.currentTarget.value;
+    this.setState({ account });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
-
-    // Vanilla js
-    //const username = document.getElementById("username").value;
-    const username = this.username.current.value;
-
     console.log("submitted");
   };
 
@@ -25,8 +27,9 @@ class LoginForm extends Component {
             <label htmlFor="username">Username</label>
             <input
               id="username"
-              ref={this.username}
               type="text"
+              value={this.state.account.username}
+              onChange={this.handleChange}
               className="form-control"
               autoFocus
             />
