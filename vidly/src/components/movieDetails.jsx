@@ -79,7 +79,7 @@ class MovieDetails extends Form {
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("title", "Title")}
           <div className="form-group">
-            <label for="genres">Genre</label>
+            <label htmlFor="genres">Genre</label>
             <select
               name="genres"
               id="genres"

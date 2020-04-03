@@ -7,6 +7,7 @@ import { paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import Pagination from "./common/pagination";
+import { Link } from "react-router-dom";
 
 class Movies extends Component {
   state = {
@@ -106,12 +107,9 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <button
-            className="btn btn-primary mb-4"
-            onClick={() => this.props.history.push("/movies/new")}
-          >
+          <Link to="/movies/new" className="btn btn-primary mb-4">
             New Movie
-          </button>
+          </Link>
           <h5>Showing {totalCount} movies in the database</h5>
           <MoviesTable
             movies={movies}
