@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import Customers from "./components/customers";
+import LoginForm from "./components/loginForm";
 import MovieDetails from "./components/movieDetails";
 import Movies from "./components/movies";
 import NavBar from "./components/navbar";
@@ -14,6 +15,7 @@ function App() {
       <NavBar />
       <div className="container">
         <Switch>
+          <Route path="/login" component={LoginForm} />
           <Route path="/movies/:id" component={MovieDetails} />
           <Route path="/movies" component={Movies} />
           <Redirect to="/movies" from="/" exact />
