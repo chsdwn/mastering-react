@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import http from "./services/httpService";
+import config from "./config.json";
 
 import "./App.css";
-
-const API_ENDPOINT = "http://jsonplaceholder.typicode.com/posts";
 
 class App extends Component {
   state = {
@@ -12,13 +11,13 @@ class App extends Component {
 
   async componentDidMount() {
     // pending > resolve (success) OR rejected (failure)
-    const { data: posts } = await http.get(API_ENDPOINT);
+    const { data: posts } = await http.get(config.API_ENDPOINT);
     this.setState({ posts });
   }
 
   handleAdd = async () => {
     const obj = { title: "title", body: "body" };
-    const { data: post } = await http.post(API_ENDPOINT, obj);
+    const { data: post } = await http.post(config.API_ENDPOINT, obj);
 
     const posts = [post, ...this.state.posts];
     this.setState({ posts });
@@ -26,8 +25,8 @@ class App extends Component {
 
   handleUpdate = async (post) => {
     post.title = "UPDATED";
-    // http.patch(`${API_ENDPOINT}/${post.id}`, { title: post.title });
-    await http.put(`${API_ENDPOINT}/${post.id}`, post);
+    // http.patch(`${config.API_ENDPOINT}/${post.id}`, { title: post.title });
+    await http.put(`${config.API_ENDPOINT}/${post.id}`, post);
 
     const posts = [...this.state.posts];
     const index = posts.indexOf(post);
@@ -37,7 +36,7 @@ class App extends Component {
 
   handleDelete = async (post) => {
     /* <== Pessimistic update ==> */
-    // await http.delete(`${API_ENDPOINT}/${post.id}`);
+    // await http.delete(`${config.API_ENDPOINT}/${post.id}`);
     // const posts = this.state.posts.filter((p) => p.id !== post.id);
     // this.setState({ posts });
 
@@ -48,7 +47,7 @@ class App extends Component {
     this.setState({ posts });
 
     try {
-      await http.delete(`${API_ENDPOINT}/${post.id}`);
+      await http.delete(`${config.API_ENDPOINT}/${post.id}`);
     } catch (ex) {
       // Expected (404: not found, 400: bad request) - CLIENT ERRORS
       // - Display a specific error message
