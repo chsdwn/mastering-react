@@ -119,7 +119,6 @@ class Movies extends Component {
       genres,
       pageSize,
       currentPage,
-      selectedGenre,
       sortColumn,
     } = this.state;
     const length = allMovies.length;
@@ -129,7 +128,6 @@ class Movies extends Component {
     }
 
     const { totalCount, data: movies } = this.getPageData();
-    console.log(totalCount);
 
     return (
       <div className="row">
