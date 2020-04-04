@@ -1,6 +1,21 @@
 import React, { Component } from "react";
 import axios from "axios";
+
 import "./App.css";
+
+axios.interceptors.response.use(null, (error) => {
+  const expectedError =
+    error.response &&
+    error.response.status >= 400 &&
+    error.response.status < 500;
+
+  if (!expectedError) {
+    console.log("Logging the error", error);
+    alert("An unexpected error occured");
+  }
+
+  return Promise.reject(error);
+});
 
 const API_ENDPOINT = "http://jsonplaceholder.typicode.com/posts";
 
@@ -11,7 +26,7 @@ class App extends Component {
 
   async componentDidMount() {
     // pending > resolve (success) OR rejected (failure)
-    const { data: posts } = await axios.get(API_ENDPOINT);
+    const { data: posts } = await axios.get("aa" + API_ENDPOINT);
     this.setState({ posts });
   }
 
@@ -56,10 +71,6 @@ class App extends Component {
       // Unexpected (network down, server down, db down, bug)
       // - Log them
       // - Display a generic and friendly error message
-      else {
-        console.log("Logging the error", ex);
-        alert("An unexpected error occured");
-      }
 
       console.log(ex);
       this.setState({ posts: originalPosts });
