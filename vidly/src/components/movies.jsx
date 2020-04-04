@@ -8,6 +8,7 @@ import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import Pagination from "./common/pagination";
 import { Link } from "react-router-dom";
+import Input from "./common/input";
 
 class Movies extends Component {
   state = {
@@ -15,7 +16,8 @@ class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
-    sortColumn: { path: "title", order: "asc" }
+    sortColumn: { path: "title", order: "asc" },
+    searchQuery: "",
   };
 
   componentDidMount() {
@@ -23,36 +25,37 @@ class Movies extends Component {
 
     this.setState({
       movies: getMovies(),
-      genres
+      genres,
     });
   }
 
-  onMovieDeleteHandler = id => {
-    const movies = this.state.movies.filter(movie => movie._id !== id);
+  onMovieDeleteHandler = (id) => {
+    const movies = this.state.movies.filter((movie) => movie._id !== id);
     this.setState({
-      movies
+      movies,
     });
   };
 
-  handleLike = id => {
+  handleLike = (id) => {
     const movies = [...this.state.movies];
-    const index = movies.findIndex(m => m._id === id);
+    const index = movies.findIndex((m) => m._id === id);
     movies[index].liked = !movies[index].liked;
     this.setState({ movies });
   };
 
-  handlePageChange = page => {
+  handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
 
-  handleGenreSelect = genre => {
+  handleGenreSelect = (genre) => {
     this.setState({
       selectedGenre: genre,
-      currentPage: 1
+      currentPage: 1,
+      searchQuery: "",
     });
   };
 
-  handleSort = sortColumn => {
+  handleSort = (sortColumn) => {
     this.setState({ sortColumn });
   };
 
@@ -62,22 +65,52 @@ class Movies extends Component {
       pageSize,
       currentPage,
       selectedGenre,
-      sortColumn
+      sortColumn,
+      searchQuery,
     } = this.state;
 
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter(m => m.genre._id === selectedGenre._id)
-        : allMovies;
+    let filtered;
+    if (selectedGenre && selectedGenre._id) {
+      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
+    } else if (searchQuery) {
+      filtered = allMovies.filter((m) =>
+        m.title.toLowerCase().startsWith(searchQuery)
+      );
+    } else {
+      filtered = allMovies;
+    }
+    // selectedGenre && selectedGenre._id
+    //   ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+    //   : allMovies;
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
     const movies = paginate(sorted, currentPage, pageSize);
 
     return {
-      totalCount: allMovies.length,
-      data: movies
+      totalCount: sorted.length,
+      data: movies,
     };
+  };
+
+  handleSearchInputOnChange = ({ currentTarget }) => {
+    const { value } = currentTarget;
+
+    if (!value) {
+      this.setState({ searchQuery: "" });
+      return;
+    }
+
+    // const movies = getMovies();
+    // const result = movies.filter((m) =>
+    //   m.title.toLowerCase().startsWith(value)
+    // );
+
+    this.setState({
+      searchQuery: value,
+      currentPage: 1,
+      selectedGenre: {},
+    });
   };
 
   render() {
@@ -87,7 +120,7 @@ class Movies extends Component {
       pageSize,
       currentPage,
       selectedGenre,
-      sortColumn
+      sortColumn,
     } = this.state;
     const length = allMovies.length;
 
@@ -96,6 +129,7 @@ class Movies extends Component {
     }
 
     const { totalCount, data: movies } = this.getPageData();
+    console.log(totalCount);
 
     return (
       <div className="row">
@@ -111,6 +145,13 @@ class Movies extends Component {
             New Movie
           </Link>
           <h5>Showing {totalCount} movies in the database</h5>
+          <Input
+            id="search"
+            name="search"
+            placeholder="Search..."
+            value={this.state.searchQuery}
+            onChange={this.handleSearchInputOnChange}
+          />
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
