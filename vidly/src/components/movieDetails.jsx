@@ -36,10 +36,9 @@ class MovieDetails extends Form {
 
     const id = this.props.match.params.id;
     if (id === undefined) return;
-    const { data: movie } = await getMovie(id);
 
-    if (!movie) this.props.history.replace("/not-found");
-    else {
+    try {
+      const { data: movie } = await getMovie(id);
       const data = {
         _id: movie._id,
         title: movie.title,
@@ -47,9 +46,10 @@ class MovieDetails extends Form {
         numberInStock: parseInt(movie.numberInStock),
         dailyRentalRate: parseInt(movie.dailyRentalRate),
       };
-      console.log(data);
       this.setState({ data });
-      console.log(this.state.data.genre);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        this.props.history.replace("/not-found");
     }
   }
 
