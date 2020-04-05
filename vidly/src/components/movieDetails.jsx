@@ -30,14 +30,16 @@ class MovieDetails extends Form {
     dailyRentalRate: Joi.number().min(0).max(10).required().label("Rate"),
   };
 
-  async componentDidMount() {
+  async populateGenres() {
     const { data: genres } = await getGenres();
     this.setState({ genres });
+  }
 
-    const id = this.props.match.params.id;
-    if (id === undefined) return;
-
+  async populateMovie() {
     try {
+      const id = this.props.match.params.id;
+      if (id === undefined) return;
+
       const { data: movie } = await getMovie(id);
       const data = {
         _id: movie._id,
@@ -51,6 +53,11 @@ class MovieDetails extends Form {
       if (ex.response && ex.response.status === 404)
         this.props.history.replace("/not-found");
     }
+  }
+
+  async componentDidMount() {
+    await this.populateGenres();
+    await this.populateMovie();
   }
 
   handleGenreSelect = (genreId) => {
