@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
 
-import { getMovie, saveMovie } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getMovie, saveMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 
 class MovieDetails extends Form {
   state = {
@@ -12,35 +12,31 @@ class MovieDetails extends Form {
       title: "",
       genre: "", // dropdown list of genres
       numberInStock: "", // 0-100
-      dailyRentalRate: "" // 0-10
+      dailyRentalRate: "", // 0-10
     },
     genres: [],
-    errors: {}
+    errors: {},
   };
 
   schema = {
     _id: Joi.any(),
     title: Joi.string().label("Title"),
-    genre: Joi.required(),
+    genre: Joi.object().required(),
     numberInStock: Joi.number()
       .min(0)
       .max(100)
       .required()
       .label("Number In Stock"),
-    dailyRentalRate: Joi.number()
-      .min(0)
-      .max(10)
-      .required()
-      .label("Rate")
+    dailyRentalRate: Joi.number().min(0).max(10).required().label("Rate"),
   };
 
-  componentDidMount() {
-    const genres = getGenres();
+  async componentDidMount() {
+    const { data: genres } = await getGenres();
     this.setState({ genres });
 
     const id = this.props.match.params.id;
     if (id === undefined) return;
-    const movie = getMovie(id);
+    const { data: movie } = await getMovie(id);
 
     if (!movie) this.props.history.replace("/not-found");
     else {
@@ -49,24 +45,28 @@ class MovieDetails extends Form {
         title: movie.title,
         genre: movie.genre,
         numberInStock: parseInt(movie.numberInStock),
-        dailyRentalRate: parseInt(movie.dailyRentalRate)
+        dailyRentalRate: parseInt(movie.dailyRentalRate),
       };
+      console.log(data);
       this.setState({ data });
+      console.log(this.state.data.genre);
     }
   }
 
-  handleGenreSelect = genreId => {
-    const genres = [...this.state.genres];
-    const genre = genres.find(g => g._id === genreId);
+  handleGenreSelect = (genreId) => {
+    if (genreId) {
+      const genres = [...this.state.genres];
+      const genre = genres.find((g) => g._id === genreId);
 
-    const data = { ...this.state.data };
-    data.genre = genre;
+      const data = { ...this.state.data };
+      data.genre = genre;
 
-    this.setState({ data });
+      this.setState({ data });
+    } else return;
   };
 
-  doSubmit = () => {
-    const result = saveMovie(this.state.data);
+  doSubmit = async () => {
+    const result = await saveMovie(this.state.data);
     console.log(result);
 
     this.props.history.push("/movies");
@@ -85,10 +85,10 @@ class MovieDetails extends Form {
               id="genres"
               className="form-control"
               value={this.state.data.genre._id}
-              onChange={e => this.handleGenreSelect(e.target.value)}
+              onChange={(e) => this.handleGenreSelect(e.target.value)}
             >
-              <option value="" disabled></option>
-              {this.state.genres.map(genre => (
+              <option></option>
+              {this.state.genres.map((genre) => (
                 <option key={genre._id} value={genre._id}>
                   {genre.name}
                 </option>
