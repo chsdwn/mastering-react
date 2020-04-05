@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 import { getGenres } from "../services/genreService";
 import { getMovies } from "../services/movieService";
 import { paginate } from "../utils/paginate";
 
-import ListGroup from "./common/listGroup";
-import MoviesTable from "./moviesTable";
-import Pagination from "./common/pagination";
-import { Link } from "react-router-dom";
 import Input from "./common/input";
+import ListGroup from "./common/listGroup";
+import Pagination from "./common/pagination";
+import MoviesTable from "./moviesTable";
 
 class Movies extends Component {
   state = {
@@ -21,8 +21,8 @@ class Movies extends Component {
   };
 
   async componentDidMount() {
-    const genreList = await getGenres();
-    const genres = [{ _id: "", name: "All Genres" }, ...genreList];
+    const { data } = await getGenres();
+    const genres = [{ _id: "", name: "All Genres" }, ...data];
 
     this.setState({
       movies: await getMovies(),
