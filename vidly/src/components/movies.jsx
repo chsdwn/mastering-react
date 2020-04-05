@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { getGenres } from "../services/genreService";
-import { getMovies } from "../services/movieService";
+import { getMovies, deleteMovie } from "../services/movieService";
 import { paginate } from "../utils/paginate";
 
 import Input from "./common/input";
@@ -24,17 +25,24 @@ class Movies extends Component {
     const { data } = await getGenres();
     const genres = [{ _id: "", name: "All Genres" }, ...data];
 
-    this.setState({
-      movies: await getMovies(),
-      genres,
-    });
+    const { data: movies } = await getMovies();
+    this.setState({ movies, genres });
   }
 
-  onMovieDeleteHandler = (id) => {
-    const movies = this.state.movies.filter((movie) => movie._id !== id);
-    this.setState({
-      movies,
-    });
+  handleDelete = async (id) => {
+    const originalMovies = this.state.movies;
+
+    const movies = originalMovies.filter((movie) => movie._id !== id);
+    this.setState({ movies });
+
+    try {
+      await deleteMovie(id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        toast.error("No movie found");
+
+      this.setState({ movies: originalMovies });
+    }
   };
 
   handleLike = (id) => {
@@ -154,7 +162,7 @@ class Movies extends Component {
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
-            onDelete={this.onMovieDeleteHandler}
+            onDelete={this.handleDelete}
             onLike={this.handleLike}
             onSort={this.handleSort}
           />
