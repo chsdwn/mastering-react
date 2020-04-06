@@ -27,19 +27,25 @@ class MoviesTable extends Component {
         />
       ),
     },
-    {
-      key: "delete",
-      content: (movie) =>
-        getCurrentUser() && getCurrentUser().isAdmin ? (
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={() => this.props.onDelete(movie._id)}
-          >
-            Delete
-          </button>
-        ) : null,
-    },
   ];
+
+  deleteColumn = {
+    key: "delete",
+    content: (movie) => (
+      <button
+        className="btn btn-danger btn-sm"
+        onClick={() => this.props.onDelete(movie._id)}
+      >
+        Delete
+      </button>
+    ),
+  };
+
+  constructor() {
+    super();
+    const user = getCurrentUser();
+    if (user && user.isAdmin) this.columns.push(this.deleteColumn);
+  }
 
   render() {
     const { movies, sortColumn, onSort } = this.props;
