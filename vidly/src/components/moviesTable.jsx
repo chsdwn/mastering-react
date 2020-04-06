@@ -4,36 +4,41 @@ import { Link } from "react-router-dom";
 import Like from "./common/like";
 import Table from "./common/table";
 
+import { getCurrentUser } from "../services/authService";
+
 class MoviesTable extends Component {
   columns = [
     {
       path: "title",
       label: "Title",
-      content: movie => <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      content: (movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      ),
     },
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
     {
       key: "like",
-      content: movie => (
+      content: (movie) => (
         <Like
           liked={movie.liked}
           onClick={() => this.props.onLike(movie._id)}
         />
-      )
+      ),
     },
     {
       key: "delete",
-      content: movie => (
-        <button
-          className="btn btn-danger btn-sm"
-          onClick={() => this.props.onDelete(movie._id)}
-        >
-          Delete
-        </button>
-      )
-    }
+      content: (movie) =>
+        getCurrentUser() && getCurrentUser().isAdmin ? (
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => this.props.onDelete(movie._id)}
+          >
+            Delete
+          </button>
+        ) : null,
+    },
   ];
 
   render() {
