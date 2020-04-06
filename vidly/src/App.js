@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 import { ToastContainer } from "react-toastify";
 
 import Customers from "./components/customers";
@@ -13,27 +14,39 @@ import NotFound from "./components/common/notFound";
 
 import "react-toastify/dist/ReactToastify.min.css";
 
-function App() {
-  return (
-    <React.Fragment>
-      <ToastContainer />
-      <NavBar />
-      <div className="container">
-        <Switch>
-          <Route path="/login" component={LoginForm} />
-          <Route path="/register" component={RegisterForm} />
-          <Route path="/movies/new" component={MovieDetails} exact />
-          <Route path="/movies/:id" component={MovieDetails} />
-          <Route path="/movies" component={Movies} />
-          <Redirect to="/movies" from="/" exact />
-          <Route path="/customers" component={Customers} />
-          <Route path="/rentals" component={Rentals} />
-          <Route path="/404" component={NotFound} />
-          <Redirect to="/404" />
-        </Switch>
-      </div>
-    </React.Fragment>
-  );
+class App extends Component {
+  state = {};
+
+  componentDidMount() {
+    try {
+      const jwt = localStorage.getItem("token");
+      const user = jwtDecode(jwt);
+      this.setState({ user });
+    } catch (ex) {}
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <ToastContainer />
+        <NavBar user={this.state.user} />
+        <div className="container">
+          <Switch>
+            <Route path="/login" component={LoginForm} />
+            <Route path="/register" component={RegisterForm} />
+            <Route path="/movies/new" component={MovieDetails} exact />
+            <Route path="/movies/:id" component={MovieDetails} />
+            <Route path="/movies" component={Movies} />
+            <Redirect to="/movies" from="/" exact />
+            <Route path="/customers" component={Customers} />
+            <Route path="/rentals" component={Rentals} />
+            <Route path="/404" component={NotFound} />
+            <Redirect to="/404" />
+          </Switch>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;
