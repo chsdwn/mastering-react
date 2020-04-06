@@ -9,7 +9,6 @@ export const getCurrentUser = () => {
     const jwt = localStorage.getItem(TOKEN_KEY);
     return jwtDecode(jwt);
   } catch (ex) {
-    console.log(ex);
     return null;
   }
 };
