@@ -9,8 +9,13 @@ export const getCurrentUser = () => {
     const jwt = localStorage.getItem(TOKEN_KEY);
     return jwtDecode(jwt);
   } catch (ex) {
+    console.log(ex);
     return null;
   }
+};
+
+export const getJwt = () => {
+  return localStorage.getItem(TOKEN_KEY);
 };
 
 export const login = async (email, password) => {

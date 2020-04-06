@@ -20,7 +20,8 @@ class App extends Component {
   state = {};
 
   componentDidMount() {
-    this.setState({ user: getCurrentUser() });
+    const user = getCurrentUser();
+    this.setState({ user });
   }
 
   render() {
