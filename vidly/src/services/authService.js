@@ -18,8 +18,13 @@ export const getJwt = () => {
   return localStorage.getItem(TOKEN_KEY);
 };
 
+http.setJwt(getJwt());
+
 export const login = async (email, password) => {
-  const { data: jwt } = http.post(`${API_ENDPOINT}/auth`, { email, password });
+  const { data: jwt } = await http.post(`${API_ENDPOINT}/auth`, {
+    email,
+    password,
+  });
   localStorage.setItem(TOKEN_KEY, jwt);
 };
 

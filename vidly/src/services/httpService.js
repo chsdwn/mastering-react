@@ -1,12 +1,13 @@
 import axios from "axios";
 
-import { getJwt } from "./authService";
-
-axios.defaults.headers.common["x-auth-token"] = getJwt();
+export const setJwt = (jwt) => {
+  axios.defaults.headers.common["x-auth-token"] = jwt;
+};
 
 export default {
   delete: axios.delete,
   get: axios.get,
   post: axios.post,
   put: axios.put,
+  setJwt,
 };
